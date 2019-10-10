@@ -1,0 +1,164 @@
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-7">
+            <label for="searchProject">Search Project</label>
+            <tag-input [(ngModel)]="projectNameSearch" name="searchTerm" [secondaryPlaceholder]="'Looking for anything?'"
+                modelAsStrings="true">
+            </tag-input>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputState">Display Only</label>
+            <select id="inputState" class="form-control" [(ngModel)]="displayType" name="displayType">
+                <option value="EXPIRED">
+                    EXPIRED
+                </option>
+                <option value="FUNDED">
+                    FUNDED
+                </option>
+                <option value="PENDING">
+                    PENDING
+                </option>
+                <option value="ONGOING">
+                    ONGOING
+                </option>
+                <option value="BANNED">
+                    BANNED
+                </option>
+                <option value="ALL">
+                    ALL
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-3 align-self-end">
+            <button type="button" class="btn btn-primary" (click)="this.loadProjects()">
+                Search
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th class="table-header">
+                            <span>Project Name </span>
+                        </th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Edit Project</th>
+                        <th>Ban Project</th>
+                        <th>Delete Project</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let project of allProjects; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td (click)="viewProject(project.id)" class="project-finder">{{project.projectname}}</td>
+                        <td>{{project | projectstatus}}</td>
+                        <td>{{project.projectowner}}</td>
+                        <td>
+                            <button class="btn btn-warning" (click)="editProject(project, editProjectDialog)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" (click)="banProject(project)" [disabled]="project.isbanned">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deleteProject(project.id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #editProjectDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="reportDialog">Editing {{selectedProjectCopy.projectname}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="projectName">Project Name</label>
+                <input [(ngModel)]="selectedProjectCopy.projectname" type="text" class="form-control" id="projectName"
+                    placeholder="Enter your project name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label for="projectDescription">Project Description</label>
+                <textarea [(ngModel)]="selectedProjectCopy.projectdescription" class="form-control" id="projectDescription"
+                    rows="10" placeholder="Enter project description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="startDate">Start Date</label>
+                <div class="input-group">
+                    <input id="startDate" class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="selectedProjectCopy.startdateDate"
+                        ngbDatepicker #d1="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                            <i class="far fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="endDate">End Date</label>
+                <div class="input-group">
+                    <input id="startDate" class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="selectedProjectCopy.enddateDate"
+                        ngbDatepicker #d2="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                            <i class="far fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="projectTargetAmount">Target Amount</label>
+                <input [(ngModel)]="selectedProjectCopy.targetamount" type="number" class="form-control" id="projectTargetAmount"
+                    placeholder="10.00">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label for="tags">Project Tags</label>
+                <tag-input id="tags" [(ngModel)]="selectedProjectCopy.tags" [placeholder]="'Enter your tags here'"
+                    modelAsStrings="true" [onTextChangeDebounce]="500" [secondaryPlaceholder]="'Enter new or existing tag'"
+                    [onlyFromAutocomplete]="false">
+                    <tag-input-dropdown [autocompleteObservable]="requestAutocompleteItems" [minimumTextLength]="1"
+                        [appendToBody]="false">
+                        <ng-template let-item="item" let-index="index">
+                            {{ item.display }}
+                        </ng-template>
+                    </tag-input-dropdown>
+                </tag-input>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" (click)="updateProject(selectedProjectCopy)">
+            Update Project
+        </button>
+    </div>
+</ng-template>

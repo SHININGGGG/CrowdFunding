@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                  <tr>
+                      <th>No.</th>
+                      <th>ENTITY</th>
+                      <th>ACTION</th>
+                      <th>TIMESTAMP</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let log of logs">
+                      <td>{{log.logid}}</td>
+                      <td>{{log.entity}}</td>
+                      <td>{{log.action}}</td>
+                      <td>{{log.timestamp | date:'dd/MM/yyyy hh:mm aa'}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>

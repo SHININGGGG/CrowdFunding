@@ -1,0 +1,138 @@
+<ng-container *ngIf="project">
+  <header class="masthead" [ngStyle]="{'background-image': 'url(' + projectImageURL +')'}">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>{{project.projectname}}</h1>
+            <!-- <h2 class="subheading">Problems look mighty small from 150 miles up</h2> -->
+            <span class="meta">Posted by
+              <a href="#">{{project.projectowner}}</a>
+              on {{project.createtime | date:'dd MMM yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h2 class="section-heading">Project Description</h2>
+          {{project.projectdescription}}
+        </div>
+
+        <div class="col-lg-4">
+          <h2 class="section-heading">Project Details</h2>
+          <div class="row">
+            <div class="col-lg-12">
+              <span>Status: {{project | projectstatus}}</span>
+            </div>
+            <div class="col-lg-12" *ngIf="!this.project.isbanned && this.project.enddate > currentTime">
+              <span *ngIf="displayTimeToStart">Starts In: </span>
+              <span *ngIf="displayTimeToEnd">Ends In: </span>
+              <span class="badge badge-primary" style="margin-right: 2.5%">{{timeLeft.days}} Days</span>
+              <span class="badge badge-success" style="margin-right: 2.5%">{{timeLeft.hours}} Hours</span>
+              <span class="badge badge-warning" style="margin-right: 2.5%">{{timeLeft.minutes}} Minutes</span>
+            </div>
+          </div>
+
+          <p style="margin-bottom: 1em;">
+            <label for="pledgeprogress">Pledge Progress</label>
+            <ngb-progressbar id="pledgeprogress" type="info" [value]="this.project.pledgeprogress" [striped]="true"
+              [animated]="true"><i>{{this.project.pledgeprogress}}%</i>
+            </ngb-progressbar>
+          </p>
+          <div class="col-lg-12" style="margin-bottom: 1em;">
+            <div class="row">
+              <span><i class="fas fa-funnel-dollar"></i> Amount Raised (SGD): {{this.project.currentamt / 100 |
+                currency:"":"":'1.2-2'}}</span>
+              <span><i class="fas fa-dollar-sign" style="padding-left: 0.25em; margin-right: 0.4em;">
+                </i> Target Amount (SGD): {{this.project.targetamount /100 | currency:"":"":'1.2-2'}}</span>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <ng-container *ngFor="let tag of project.tags">
+              <span class="badge badge-pill badge-primary" style="margin-right: 0.5em" (click)="viewTagSearch(tag)">{{tag}}</span>
+            </ng-container>
+          </div>
+          <div class="row" *ngIf="this.settings?.loggedInMember" style="margin-top: 20px">
+            <div class="col-lg-6" *ngIf="this.project.valid">
+              <button class="btn btn-primary btn-md" (click)="openDialog(pledge)" style="width: 100%">Support<br />Project
+              </button>
+            </div>
+            <div class="col-lg-6" *ngIf="!this.project.isbanned">
+              <button class="btn btn-danger btn-md" (click)="openDialog(report)" style="width: 100%">Report<br />Project
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ngb-tabset>
+        <ngb-tab title="Project Statistics">
+          <ng-template ngbTabContent>
+            <app-project-stats [project]="this.project"></app-project-stats>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Pledges Leader Board">
+          <ng-template ngbTabContent>
+            <app-project-leaderboard [project]="this.project"></app-project-leaderboard>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Comments">
+          <ng-template ngbTabContent>
+            <app-project-comment [project]="this.project"></app-project-comment>
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
+
+    </div>
+  </article>
+</ng-container>
+
+<ng-template #pledge let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="pledgeDialog">Thank you for Supporting {{this.project.projectname}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="input-group">
+        <label for="pledge" class="sr-only">Pledge Amount</label>
+        <input [(ngModel)]="pledgeAmount" type="number" class="form-control" id="pledge" placeholder="Input Amount to Pledge Here">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="makePledge()">Pledge</button>
+  </div>
+</ng-template>
+
+<ng-template #report let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="reportDialog">Reporting {{this.project.projectname}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="input-group">
+        <label for="report" class="sr-only">Reason</label>
+        <textarea [(ngModel)]="reportDescription" class="form-control" id="reportDescription" rows="10" placeholder="Why are you reporting this project?"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="makeReport()">Send Report</button>
+  </div>
+</ng-template>

@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-lg-8">
+    <h2 class="section-heading">Pledge Leaderboard</h2>
+    <div class="row">
+      <!-- DataTables Example -->
+      <div class="col-lg-12">
+        <div class="card mb-12">
+          <div class="card-header">
+            <i class="fas fa-table"></i> Detailed Pledge History
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Counts</th>
+                    <th>Total Amount</th>
+                    <!--<th>Refunded</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of leaderboard">
+                    <td>{{user.username}}</td>
+                    <td>{{user.count}}</td>
+                    <td>{{user.amount / 100 | currency:"":"":'1.2-2'}}</td>
+                    <!--<td>{{pledge.refunded ? "Yes" : "No"}}</td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

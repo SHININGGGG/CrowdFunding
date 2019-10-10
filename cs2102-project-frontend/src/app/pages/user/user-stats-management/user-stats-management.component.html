@@ -1,0 +1,102 @@
+<form>
+  <div class="form-row">
+      <div class="form-group col-md-5">
+          <label for="startDate">Start Date</label>
+          <div class="input-group">
+              <input id="startDate" class="form-control" placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="startDate"
+                  ngbDatepicker #d1="ngbDatepicker">
+              <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
+
+      <div class="form-group col-md-5">
+          <label for="endDate">End Date</label>
+          <div class="input-group">
+              <input id="endDate" class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="endDate"
+                  ngbDatepicker #d2="ngbDatepicker">
+              <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
+
+      <div class="form-group col-md-2 align-self-end">
+          <button type="button" class="btn btn-primary" (click)="this.fetchStats()">Fetch Data</button>
+      </div>
+  </div>
+</form>
+
+
+<!-- Area Chart Example-->
+<div class="card mb-3">
+  <div class="card-header">
+      <i class="fas fa-chart-area"></i> My Recent Pledges
+  </div>
+  <div class="card-body" style="padding-left: 0">
+      <ngx-charts-line-chart 
+      [results]="pledgeLineChartData" 
+      [yAxisLabel]="'Total Pledge Amount'"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      >
+      </ngx-charts-line-chart>
+  </div>
+  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+<div class="row">
+  <!-- DataTables Example -->
+  <div class="col-lg-8">
+      <div class="card mb-3">
+          <div class="card-header">
+              <i class="fas fa-table"></i> Detailed Pledge History</div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                              <th>Project Id</th>
+                              <th>Project Name</th>
+                              <th>Amount</th>
+                              <th>Date</th>
+                              <th>Refunded</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let pledge of pledges">
+                              <td>{{pledge.projectid}}</td>
+                              <td (click)="viewProject(pledge.projectid)" class="project-finder">{{pledge.projectname}}</td>
+                              <td>{{pledge.amount / 100 | currency:"":"":'1.2-2'}}</td>
+                              <td>{{pledge.pledgetime | date}}</td>
+                              <td>{{pledge.refunded ? "Yes" : "No"}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-lg-4">
+      <div class="card mb-3">
+          <div class="card-header">
+              <i class="fas fa-chart-pie"></i> Pledge Tag Distribution</div>
+          <div class="card-body">
+              <!-- <canvas id="myPieChart" width="100%" height="100"></canvas> -->
+              <ngx-charts-pie-chart 
+              [results]="pledgeDistPieData"
+              [legend]="true">
+              </ngx-charts-pie-chart>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+  </div>
+</div>

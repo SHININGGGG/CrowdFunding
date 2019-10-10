@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Register an Account</div>
+        <div class="card-body">
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <input [(ngModel)]="userName" type="text" id="userName" class="form-control" placeholder="User Name" required="required">
+                        <label for="userName">User Name</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-label-group">
+                                <input [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                    required="required">
+                                <label for="inputPassword">Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-label-group">
+                                <input [(ngModel)]="confirmPassword" type="password" id="confirmPassword" class="form-control" placeholder="Confirm password"
+                                    required="required">
+                                <label for="confirmPassword">Confirm password</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-primary btn-block" (click)="createUser(content)">Register</a>
+            <div class="text-center">
+                <a class="d-block small mt-3" routerLink="/login">Have an Account? Proceed to Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Registration Successful</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Thank you for registering with us!</p>
+        <p>Please proceed to login page.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); navigateToLogin()">Proceed to login</button>
+    </div>
+</ng-template>

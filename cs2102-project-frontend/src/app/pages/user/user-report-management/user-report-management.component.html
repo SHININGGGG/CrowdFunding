@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th class="table-header">
+                            <span>Project Name </span>
+                        </th>
+                        <th>Report Time</th>
+                        <th>Resolved</th>
+                        <th>Handled By</th>
+                        <th>View Report</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let report of reports; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td (click)="viewProject(report.projectid)" class="project-finder">{{report.projectname}}</td>
+                        <td>{{report.reporttime | date:'dd/MM/yyyy hh:mm a'}}</td>
+                        <td>{{report.handlername ? 'Yes' : 'No'}}</td>
+                        <td>{{report.handlername}}</td>
+                        <th>
+                            <button class="btn btn-primary" (click)="viewReport(report, reportDialog)">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #reportDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="reportDialog">Reporting {{selectedReport.projectname}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="reportText">Report Description</label>
+            <div class="input-group">
+                <textarea [(ngModel)]="selectedReport.description" class="form-control" id="reportText" rows="5"
+                    disabled=true>
+
+                    </textarea>
+            </div>
+
+            <label for="handlerText">Handler Note</label>
+            <div class="input-group">
+                <textarea [(ngModel)]="selectedReport.handledescription" class="form-control" id="handlerText" rows="5"
+                    placeholder="Update what was done" (input)="updateReportComment(selectedReport)" disabled=true>
+
+                    </textarea>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

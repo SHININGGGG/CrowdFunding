@@ -1,0 +1,109 @@
+<div class="row">
+
+  <div class="card col-lg-12 mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i> My Project Pledge Collection
+    </div>
+    <ngx-charts-bar-vertical [results]="pledgeDist" 
+    [xAxis]="true" [yAxis]="true" [legend]="true"
+      [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Tags'" [yAxisLabel]="'Total Pledge Amount'">
+
+    </ngx-charts-bar-vertical>
+  </div>
+
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th class="table-header">
+              <span>Project Name </span>
+            </th>
+            <th>Status</th>
+            <th>Amount Raised (SGD)</th>
+            <th>Target Amount (SGD)</th>
+            <th>Edit Project</th>
+            <!-- <th>Delete Project</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects; let i = index">
+            <td>{{i + 1}}</td>
+            <td (click)="viewProject(project.id)" class="project-finder">{{project.projectname}}</td>
+            <td>{{project | projectstatus}}</td>
+            <td>{{project.currentamt / 100 | currency:"":"":'1.2-2'}}</td>
+            <td>{{project.targetamount / 100 | currency:"":"":'1.2-2'}}</td>
+            <td>
+              <button class="btn btn-warning" (click)="editProject(project, editProjectDialog)" [disabled]="currentTime > project.enddate || project.isbanned">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+            <!-- <td>
+              <button class="btn btn-danger" (click)="deleteProject(project.id)" [disabled]="currentTime > project.enddate">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #editProjectDialog let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="reportDialog">Editing {{selectedProjectCopy.projectname}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input [(ngModel)]="selectedProjectCopy.projectname" type="text" class="form-control" id="projectName"
+          placeholder="Enter your project name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-group">
+        <label for="projectDescription">Project Description</label>
+        <textarea [(ngModel)]="selectedProjectCopy.projectdescription" class="form-control" id="projectDescription"
+          rows="10" placeholder="Enter project description"></textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="projectTargetAmount">Target Amount</label>
+        <input [(ngModel)]="selectedProjectCopy.targetamount" type="number" class="form-control" id="projectTargetAmount"
+          placeholder="10.00">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-group">
+        <label for="tags">Project Tags</label>
+        <tag-input id="tags" [(ngModel)]="selectedProjectCopy.tags" [placeholder]="'Enter your tags here'"
+          modelAsStrings="true" [onTextChangeDebounce]="500" [secondaryPlaceholder]="'Enter new or existing tag'"
+          [onlyFromAutocomplete]="false">
+          <tag-input-dropdown [autocompleteObservable]="requestAutocompleteItems" [minimumTextLength]="1"
+            [appendToBody]="false">
+            <ng-template let-item="item" let-index="index">
+              {{ item.display }}
+            </ng-template>
+          </tag-input-dropdown>
+        </tag-input>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="updateProject(selectedProjectCopy)">
+      Update Project
+    </button>
+  </div>
+</ng-template>

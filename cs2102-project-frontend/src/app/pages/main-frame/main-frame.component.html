@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" routerLink="/main/homepage">CS2102 Project</a>
+
+    <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+                  <i class="fas fa-bars"></i>
+                </button> -->
+
+    <!-- Navbar Search -->
+    <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input name="projectSearch" [(ngModel)]="this.projectService.projectSearchTerm" type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="fetchProjectBySearchTerm()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form> -->
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
+
+        <li class="nav-item dropdown no-arrow" *ngIf="this.settings.loggedInMember">
+            <a class="nav-link dropdown-toggle" routerLink="/main/profile" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span>Welcome, {{this.settings.loggedInMember.username}} </span>
+                <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+        </li>
+    </ul>
+
+</nav>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+        <li class="nav-item" routerLinkActive="active" *ngIf="this.settings.loggedInMember">
+            <a class="nav-link" routerLink="/main/manage-project">
+                <i class="fas fa-plus"></i>
+                <span> Create new project</span>
+            </a>
+        </li>
+
+        <li class="nav-item " routerLinkActive="active">
+            <a class="nav-link" routerLink="/main/leaderboard">
+                <i class="fas fa-trophy"></i>
+                <span> Showcase</span>
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/main/project-list">
+                <i class="fas fa-list-ul"></i>
+                <span> Project Listing</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item" *ngIf="this.settings.loggedInMember?.userrole == 'ADMIN'" routerLinkActive="active">
+            <a class="nav-link" routerLink="/main/admin">
+                <i class="fas fa-user-alt"></i>
+                <span> Admin </span>
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" id="loginButton">
+            <a class="nav-link" (click)="handleAuthentication()">
+                <i ngClass="this.settings.loggedInMember ? fas fa-sign-out-alt : fas fa-sign-in-alt"></i>
+                <span> {{this.settings.loggedInMember ? 'Logout' : 'Login'}} </span>
+            </a>
+        </li>
+
+    </ul>
+
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+</div>
+<!-- /#wrapper -->

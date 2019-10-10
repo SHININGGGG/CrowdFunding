@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>
+              <span>Project Name </span>
+            </th>
+            <th>Amount Raised (SGD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of leaderboard; let i = index">
+            <td>{{i + 1}}</td>
+            <td (click)="viewProject(project.id)" class="project-navigation">{{project.projectname}}</td>
+            <td>{{project.amtraised / 100| currency:"":"":'1.2-2'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

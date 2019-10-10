@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>
+              <span>User</span>
+            </th>
+            <th>Amount Pledged (SGD)</th>
+            <th>Pledges Made</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of leaderboard; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.amount / 100| currency:"":"":'1.2-2'}}</td>
+            <td>{{user.count}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

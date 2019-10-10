@@ -1,0 +1,29 @@
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+  <div class="col-md-12 px-0" style="margin-bottom: 2em">
+    <img src="assets/images/background/Project_Funding.jpg" style="width: 100%">
+  </div>
+
+  <div class="row mb-2">
+
+    <div class="col-md-6" *ngFor="let project of projects">
+      <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+        <div class="card-body d-flex flex-column align-items-start col-sm-8">
+          <h3 class="mb-0">
+            <a class="text-dark" routerLink="/main/project/{{project.id}}">{{project.projectname}}</a>
+          </h3>
+
+          <div class="mb-1">
+            <label for="pledgeprogress2" style="color: #007bff;">Pledge Progress</label>
+            <ngb-progressbar id="pledgeprogress2" type="info" [value]="this.project.progress" [striped]="true"
+                             [animated]="true"><i>{{this.project.progress}}%</i>
+            </ngb-progressbar>
+          </div>
+        </div>
+        <img class="col-sm-4 img-fluid"
+             [src]="project.imagefilename" style="width: 200px; height: 250px;"
+             data-holder-rendered="true">
+      </div>
+    </div>
+  </div>
+  
+</div>

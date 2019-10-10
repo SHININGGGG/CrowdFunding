@@ -1,0 +1,100 @@
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="searchTerm">Search Report</label>
+            <input class="form-control" [(ngModel)]="projectSearchTerm" placeholder="Enter Project Name" id="searchTerm"
+                name="searchTerm">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputState">Display Only</label>
+            <select id="inputState" class="form-control" [(ngModel)]="displayType" name="displayType">
+                <option value="false">
+                    NOT RESOLVED
+                </option>
+                <option value="true">
+                    RESOLVED
+                </option>
+                <option value="ALL">
+                    ALL
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-3 align-self-end">
+            <button type="button" class="btn btn-primary" (click)="this.fetchReports()">
+                Search
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th class="table-header">
+                            <span>Project Name </span>
+                        </th>
+                        <th>Report Time</th>
+                        <th>Submitted By</th>
+                        <th>Resolved</th>
+                        <th>Process Report</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let report of allReports; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td (click)="viewProject(report.projectid)" class="project-finder">{{report.projectname}}</td>
+                        <td>{{report.createtime | date:'dd/MM/yyyy hh:mm a'}}</td>
+                        <td>{{report.username}}</td>
+                        <td>{{report.handlername ? 'Yes' : 'No'}}</td>
+                        <td>
+                            <button class="btn" (click)="viewReport(report, reportDialog)" [disabled]="report.handlername">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #reportDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="reportDialog">Reporting {{selectedReport.projectname}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="reportText">Report Description</label>
+            <div class="input-group">
+                <textarea [(ngModel)]="selectedReport.description" class="form-control" id="reportText" rows="5"
+                    disabled=true>
+
+                </textarea>
+            </div>
+
+            <label for="handlerText">Handler Note</label>
+            <div class="input-group">
+                <textarea [(ngModel)]="selectedReport.handledescription" class="form-control" id="handlerText" rows="5"
+                    placeholder="Update what was done" (input)="updateReportComment(selectedReport)">
+
+                </textarea>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" (click)="markReportAsResolved(selectedReport)">Mark
+            as Resolved
+        </button>
+        <button type="button" class="btn btn-outline-danger" (click)="bannProject(selectedReport)" [disabled]="selectedReport.isbanned">
+            Ban Project
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,113 @@
+[
+    {
+        "name": "user",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "admin",
+        "role": "ADMIN",
+        "password": "password"
+    },
+    {
+        "name": "Lakendra Mirza",
+        "role": "ADMIN",
+        "password": "password"
+    },
+    {
+        "name": "Loralee Arnette",
+        "role": "ADMIN",
+        "password": "password"
+    },
+    {
+        "name": "Marianna Mcwilliams",
+        "role": "USER",
+        "password": "password"
+    },
+
+    {
+        "name": "Alejandra Blanford",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Audrie Urbaniak",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Lottie Parcell",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Bo Ruddy",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Dimple Mayers",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Lakenya Gann",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Mollie Licea",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Callie Savell",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Charlie Flanigan",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Lan Munden",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Oralee Girouard",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Diedra Coto",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Josephina Casares",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Aura Bessey",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Guy Steenberg",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Lurlene Nadeau",
+        "role": "USER",
+        "password": "password"
+    },
+    {
+        "name": "Delia Pelton",
+        "role": "USER",
+        "password": "password"
+    }
+]

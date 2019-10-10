@@ -1,0 +1,48 @@
+<h2 class="section-heading">Pledge Overview</h2>
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="startDate">Start Date</label>
+      <div class="input-group">
+        <input id="startDate" class="form-control" placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="startDate"
+          ngbDatepicker #d1="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+            <i class="far fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-5">
+      <label for="endDate">End Date</label>
+      <div class="input-group">
+        <input id="endDate" class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="endDate"
+          ngbDatepicker #d2="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+            <i class="far fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-2 align-self-end">
+      <button type="button" class="btn btn-secondary" (click)="this.fetchStats()">Fetch Data</button>
+    </div>
+  </div>
+</form>
+
+<div class="col-lg-12" style="padding: 0; margin-top: 1em;">
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i> Project Recent Pledges
+    </div>
+    <div class="card-body" style="padding-left: 0">
+      <ngx-charts-line-chart [results]="pledgeLineChartData" [yAxisLabel]="'Total Pledge Amount'"
+        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true">
+      </ngx-charts-line-chart>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+</div>
